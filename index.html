@@ -313,157 +313,266 @@
 </div>
 
 <script>
-    // --- DB AVEC EXPLICATIONS AJOUTÉES ---
+   J'ai compris le problème. Tu as copié le code où j'avais ajouté les explications, mais dans ce code spécifique, j'ai oublié de remettre les balises <sup> et <sub> dans les réponses du tableau db. Le tableau db dans ma dernière réponse était une version "simplifiée" sans le formatage HTML chimique que j'avais corrigé juste avant. C'est ma faute.
+
+Sur ton image, on voit SO42- au lieu de SO₄²⁻.
+
+Je vais te redonner uniquement le bloc JavaScript à remplacer (le contenu entre <script> et </script>). Ce bloc contient la base de données (db) corrigée AVEC les explications ET le formatage chimique (balises HTML).
+
+Action : Remplace tout ce qui se trouve entre <script> et </script> dans ton fichier par ceci :
+
+javascript
+    // --- DB CORRIGÉE : Formatage Chimique ET Explications ---
     const db = [
         {
             couple: "Ag<sup>+</sup> / Ag",
             correct: "Ag<sup>+</sup> + e<sup>-</sup> → Ag",
-            wrongs: ["Ag<sup>+</sup> → Ag + e<sup>-</sup>", "Ag + e<sup>-</sup> → Ag<sup>+</sup>", "Ag<sup>+</sup> + 2e<sup>-</sup> → Ag"],
-            explanation: "Simple conservation de la charge. Ag est neutre (0), Ag<sup>+</sup> est (+1). Il faut ajouter 1 électron (négatif) à gauche pour annuler le +1."
+            wrongs: [
+                "Ag<sup>+</sup> → Ag + e<sup>-</sup>",
+                "Ag + e<sup>-</sup> → Ag<sup>+</sup>",
+                "Ag<sup>+</sup> + 2e<sup>-</sup> → Ag"
+            ],
+            explanation: "Ag est au degré +1, il gagne 1 électron pour devenir neutre (0)."
         },
         {
             couple: "Al<sup>3+</sup> / Al",
             correct: "Al<sup>3+</sup> + 3e<sup>-</sup> → Al",
-            wrongs: ["Al<sup>3+</sup> + e<sup>-</sup> → Al", "Al<sup>3+</sup> + 2e<sup>-</sup> → Al", "Al → Al<sup>3+</sup> + 3e<sup>-</sup>"],
-            explanation: "L'aluminium passe de l'état d'oxydation +3 à 0. Il faut donc gagner 3 électrons pour neutraliser la charge."
+            wrongs: [
+                "Al<sup>3+</sup> + e<sup>-</sup> → Al",
+                "Al<sup>3+</sup> + 2e<sup>-</sup> → Al",
+                "Al → Al<sup>3+</sup> + 3e<sup>-</sup>"
+            ],
+            explanation: "L'ion Aluminium Al<sup>3+</sup> doit capter 3 charges négatives (3e<sup>-</sup>) pour s'annuler."
         },
         {
             couple: "Cu<sup>2+</sup> / Cu",
             correct: "Cu<sup>2+</sup> + 2e<sup>-</sup> → Cu",
-            wrongs: ["Cu<sup>2+</sup> + e<sup>-</sup> → Cu", "Cu + 2e<sup>-</sup> → Cu<sup>2+</sup>", "Cu<sup>2+</sup> → Cu + 2e<sup>-</sup>"],
-            explanation: "Réduction classique : Cu<sup>2+</sup> capte 2 charges négatives pour devenir Cu solide neutre."
+            wrongs: [
+                "Cu<sup>2+</sup> + e<sup>-</sup> → Cu",
+                "Cu + 2e<sup>-</sup> → Cu<sup>2+</sup>",
+                "Cu<sup>2+</sup> → Cu + 2e<sup>-</sup>"
+            ],
+            explanation: "Réduction classique : Cu<sup>2+</sup> + 2e<sup>-</sup> donne du cuivre solide."
         },
         {
             couple: "Fe<sup>2+</sup> / Fe",
             correct: "Fe<sup>2+</sup> + 2e<sup>-</sup> → Fe",
-            wrongs: ["Fe<sup>3+</sup> + e<sup>-</sup> → Fe", "Fe<sup>2+</sup> + 3e<sup>-</sup> → Fe", "Fe<sup>2+</sup> → Fe + 2e<sup>-</sup>"],
-            explanation: "Le Fer II (Fe<sup>2+</sup>) a besoin de 2 électrons pour redevenir du fer métallique."
+            wrongs: [
+                "Fe<sup>3+</sup> + e<sup>-</sup> → Fe",
+                "Fe<sup>2+</sup> + 3e<sup>-</sup> → Fe",
+                "Fe<sup>2+</sup> → Fe + 2e<sup>-</sup>"
+            ],
+            explanation: "Conservation de la charge : (+2) + (-2) = 0."
         },
         {
             couple: "Fe<sup>3+</sup> / Fe<sup>2+</sup>",
             correct: "Fe<sup>3+</sup> + e<sup>-</sup> → Fe<sup>2+</sup>",
-            wrongs: ["Fe<sup>3+</sup> + 2e<sup>-</sup> → Fe<sup>2+</sup>", "Fe<sup>2+</sup> + e<sup>-</sup> → Fe<sup>3+</sup>", "Fe<sup>3+</sup> → Fe<sup>2+</sup> + e<sup>-</sup>"],
-            explanation: "On passe de +3 à +2. La différence est de 1 seule charge. Il suffit d'ajouter 1 électron à gauche."
+            wrongs: [
+                "Fe<sup>3+</sup> + 2e<sup>-</sup> → Fe<sup>2+</sup>",
+                "Fe<sup>2+</sup> + e<sup>-</sup> → Fe<sup>3+</sup>",
+                "Fe<sup>3+</sup> → Fe<sup>2+</sup> + e<sup>-</sup>"
+            ],
+            explanation: "On passe de +3 à +2. La différence est de 1 charge, donc 1 électron."
         },
         {
             couple: "Zn<sup>2+</sup> / Zn",
             correct: "Zn<sup>2+</sup> + 2e<sup>-</sup> → Zn",
-            wrongs: ["Zn<sup>2+</sup> + e<sup>-</sup> → Zn", "Zn + 2e<sup>-</sup> → Zn<sup>2+</sup>", "Zn<sup>2+</sup> → Zn + 2e<sup>-</sup>"],
-            explanation: "Le Zinc ionique Zn<sup>2+</sup> capte 2 électrons pour former du métal Zn."
+            wrongs: [
+                "Zn<sup>2+</sup> + e<sup>-</sup> → Zn",
+                "Zn + 2e<sup>-</sup> → Zn<sup>2+</sup>",
+                "Zn<sup>2+</sup> → Zn + 2e<sup>-</sup>"
+            ],
+            explanation: "Le zinc ionique capte 2 électrons pour devenir métallique."
         },
         {
             couple: "I<sub>2</sub> / I<sup>-</sup>",
             correct: "I<sub>2</sub> + 2e<sup>-</sup> → 2I<sup>-</sup>",
-            wrongs: ["I<sub>2</sub> + e<sup>-</sup> → I<sup>-</sup>", "I<sub>2</sub> + 2e<sup>-</sup> → I<sup>-</sup>", "2I<sup>-</sup> + 2e<sup>-</sup> → I<sub>2</sub>"],
-            explanation: "Attention à la matière ! Il y a 2 atomes d'Iode dans I<sub>2</sub>, donc on forme 2I<sup>-</sup>. Ensuite, on équilibre les charges : 0 à gauche, -2 à droite → ajout de 2e<sup>-</sup> à gauche."
+            wrongs: [
+                "I<sub>2</sub> + e<sup>-</sup> → I<sup>-</sup>",
+                "I<sub>2</sub> + 2e<sup>-</sup> → I<sup>-</sup>",
+                "2I<sup>-</sup> + 2e<sup>-</sup> → I<sub>2</sub>"
+            ],
+            explanation: "<b>1. Atomes :</b> I<sub>2</sub> donne 2 ions I<sup>-</sup>.<br><b>2. Charges :</b> 0 à gauche, -2 à droite → ajout de 2e<sup>-</sup> à gauche."
         },
         {
             couple: "Cl<sub>2</sub> / Cl<sup>-</sup>",
             correct: "Cl<sub>2</sub> + 2e<sup>-</sup> → 2Cl<sup>-</sup>",
-            wrongs: ["Cl<sub>2</sub> + e<sup>-</sup> → Cl<sup>-</sup>", "Cl<sub>2</sub> + 2e<sup>-</sup> → Cl<sup>2-</sup>", "Cl<sup>-</sup> → Cl<sub>2</sub> + e<sup>-</sup>"],
-            explanation: "Même logique que l'Iode. On équilibre l'élément Chlore (2Cl<sup>-</sup>) puis les charges avec 2 électrons."
+            wrongs: [
+                "Cl<sub>2</sub> + e<sup>-</sup> → Cl<sup>-</sup>",
+                "Cl<sub>2</sub> + 2e<sup>-</sup> → Cl<sup>2-</sup>",
+                "Cl<sup>-</sup> → Cl<sub>2</sub> + e<sup>-</sup>"
+            ],
+            explanation: "Même logique que l'iode. Cl<sub>2</sub> est diatomique, il faut former 2Cl<sup>-</sup>."
         },
         {
             couple: "H<sup>+</sup> / H<sub>2</sub>",
             correct: "2H<sup>+</sup> + 2e<sup>-</sup> → H<sub>2</sub>",
-            wrongs: ["H<sup>+</sup> + e<sup>-</sup> → H<sub>2</sub>", "2H<sup>+</sup> + e<sup>-</sup> → H<sub>2</sub>", "H<sub>2</sub> + 2e<sup>-</sup> → 2H<sup>+</sup>"],
-            explanation: "Il faut 2 protons H<sup>+</sup> pour faire une molécule H<sub>2</sub>. La charge totale est +2 à gauche, on neutralise avec 2 électrons."
+            wrongs: [
+                "H<sup>+</sup> + e<sup>-</sup> → H<sub>2</sub>",
+                "2H<sup>+</sup> + e<sup>-</sup> → H<sub>2</sub>",
+                "H<sub>2</sub> + 2e<sup>-</sup> → 2H<sup>+</sup>"
+            ],
+            explanation: "Pour faire une molécule H<sub>2</sub>, il faut 2 protons H<sup>+</sup> et 2 électrons."
         },
         {
             couple: "MnO<sub>4</sub><sup>-</sup> / Mn<sup>2+</sup>",
             correct: "MnO<sub>4</sub><sup>-</sup> + 8H<sup>+</sup> + 5e<sup>-</sup> → Mn<sup>2+</sup> + 4H<sub>2</sub>O",
-            wrongs: ["MnO<sub>4</sub><sup>-</sup> + 8H<sup>+</sup> + e<sup>-</sup> → Mn<sup>2+</sup> + 4H<sub>2</sub>O", "MnO<sub>4</sub><sup>-</sup> + 4H<sup>+</sup> + 5e<sup>-</sup> → Mn<sup>2+</sup> + 2H<sub>2</sub>O", "MnO<sub>4</sub><sup>-</sup> + 5e<sup>-</sup> → Mn<sup>2+</sup> + 4O<sup>2-</sup>"],
-            explanation: "<b>Méthode O.H.E :</b><br>1. Mn est bon.<br>2. 4 Oxygènes → ajout de 4H<sub>2</sub>O.<br>3. 8 Hydrogènes → ajout de 8H<sup>+</sup>.<br>4. Charges : (+7) à gauche et (+2) à droite. Écart de 5 → ajout de 5e<sup>-</sup>."
+            wrongs: [
+                "MnO<sub>4</sub><sup>-</sup> + 8H<sup>+</sup> + e<sup>-</sup> → Mn<sup>2+</sup> + 4H<sub>2</sub>O",
+                "MnO<sub>4</sub><sup>-</sup> + 4H<sup>+</sup> + 5e<sup>-</sup> → Mn<sup>2+</sup> + 2H<sub>2</sub>O",
+                "MnO<sub>4</sub><sup>-</sup> + 5e<sup>-</sup> → Mn<sup>2+</sup> + 4O<sup>2-</sup>"
+            ],
+            explanation: "<b>Méthode O.H.E :</b><br>1. 4 Oxygènes → +4H<sub>2</sub>O.<br>2. 8 Hydrogènes → +8H<sup>+</sup>.<br>3. Charges : (+7) à gauche vs (+2) à droite → +5e<sup>-</sup>."
         },
         {
             couple: "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> / Cr<sup>3+</sup>",
             correct: "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 14H<sup>+</sup> + 6e<sup>-</sup> → 2Cr<sup>3+</sup> + 7H<sub>2</sub>O",
-            wrongs: ["Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 7H<sup>+</sup> + 3e<sup>-</sup> → 2Cr<sup>3+</sup> + 7H<sub>2</sub>O", "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 14H<sup>+</sup> + 6e<sup>-</sup> → Cr<sup>3+</sup> + 7H<sub>2</sub>O", "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 14H<sup>+</sup> → 2Cr<sup>3+</sup> + 7H<sub>2</sub>O + 6e<sup>-</sup>"],
-            explanation: "<b>Attention au piège :</b> Il y a 2 Chromes dans Cr<sub>2</sub>O<sub>7</sub>, donc on met <b>2</b>Cr<sup>3+</sup>. Ensuite 7H<sub>2</sub>O pour l'oxygène, 14H<sup>+</sup> pour l'hydrogène. Bilan charges : +12 à gauche, +6 à droite → écart de 6e<sup>-</sup>."
+            wrongs: [
+                "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 7H<sup>+</sup> + 3e<sup>-</sup> → 2Cr<sup>3+</sup> + 7H<sub>2</sub>O",
+                "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 14H<sup>+</sup> + 6e<sup>-</sup> → Cr<sup>3+</sup> + 7H<sub>2</sub>O",
+                "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 14H<sup>+</sup> → 2Cr<sup>3+</sup> + 7H<sub>2</sub>O + 6e<sup>-</sup>"
+            ],
+            explanation: "Attention aux 2 atomes de Chrome ! On forme <b>2</b>Cr<sup>3+</sup>. Bilan charges : +12 à gauche, +6 à droite → écart de 6 électrons."
         },
         {
             couple: "NO<sub>3</sub><sup>-</sup> / NO",
             correct: "NO<sub>3</sub><sup>-</sup> + 4H<sup>+</sup> + 3e<sup>-</sup> → NO + 2H<sub>2</sub>O",
-            wrongs: ["NO<sub>3</sub><sup>-</sup> + 2H<sup>+</sup> + e<sup>-</sup> → NO + H<sub>2</sub>O", "NO<sub>3</sub><sup>-</sup> + 4H<sup>+</sup> + 2e<sup>-</sup> → NO + 2H<sub>2</sub>O", "NO<sub>3</sub><sup>-</sup> + 3e<sup>-</sup> → NO + 3O<sup>2-</sup>"],
-            explanation: "3 Oxygènes vs 1 Oxygène → ajout de 2H<sub>2</sub>O. Cela demande 4H<sup>+</sup>. Charge résultante +3 à gauche, neutre à droite → ajout de 3e<sup>-</sup>."
+            wrongs: [
+                "NO<sub>3</sub><sup>-</sup> + 2H<sup>+</sup> + e<sup>-</sup> → NO + H<sub>2</sub>O",
+                "NO<sub>3</sub><sup>-</sup> + 4H<sup>+</sup> + 2e<sup>-</sup> → NO + 2H<sub>2</sub>O",
+                "NO<sub>3</sub><sup>-</sup> + 3e<sup>-</sup> → NO + 3O<sup>2-</sup>"
+            ],
+            explanation: "3 Oxygènes vs 1 Oxygène → ajout de 2H<sub>2</sub>O, donc 4H<sup>+</sup>. Charge résultante +3 à gauche, neutre à droite → 3e<sup>-</sup>."
         },
         {
             couple: "SO<sub>4</sub><sup>2-</sup> / SO<sub>2</sub>",
             correct: "SO<sub>4</sub><sup>2-</sup> + 4H<sup>+</sup> + 2e<sup>-</sup> → SO<sub>2</sub> + 2H<sub>2</sub>O",
-            wrongs: ["SO<sub>4</sub><sup>2-</sup> + 2H<sup>+</sup> + 2e<sup>-</sup> → SO<sub>2</sub> + H<sub>2</sub>O", "SO<sub>4</sub><sup>2-</sup> + 4H<sup>+</sup> + 4e<sup>-</sup> → SO<sub>2</sub> + 2H<sub>2</sub>O", "SO<sub>4</sub><sup>2-</sup> → SO<sub>2</sub> + O<sub>2</sub> + 2e<sup>-</sup>"],
-            explanation: "4 Oxygènes vs 2 Oxygènes → ajout de 2H<sub>2</sub>O. Puis 4H<sup>+</sup>. Charge : (-2 + 4) = +2. On ajoute 2e<sup>-</sup> pour neutraliser."
+            wrongs: [
+                "SO<sub>4</sub><sup>2-</sup> + 2H<sup>+</sup> + 2e<sup>-</sup> → SO<sub>2</sub> + H<sub>2</sub>O",
+                "SO<sub>4</sub><sup>2-</sup> + 4H<sup>+</sup> + 4e<sup>-</sup> → SO<sub>2</sub> + 2H<sub>2</sub>O",
+                "SO<sub>4</sub><sup>2-</sup> → SO<sub>2</sub> + O<sub>2</sub> + 2e<sup>-</sup>"
+            ],
+            explanation: "4 Oxygènes vs 2 Oxygènes → +2H<sub>2</sub>O. Puis 4H<sup>+</sup>. Charge : (-2 + 4) = +2. On neutralise avec 2e<sup>-</sup>."
         },
         {
             couple: "S / S<sup>2-</sup>",
             correct: "S + 2e<sup>-</sup> → S<sup>2-</sup>",
-            wrongs: ["S + e<sup>-</sup> → S<sup>-</sup>", "S<sup>2-</sup> + 2e<sup>-</sup> → S", "S → S<sup>2-</sup> + 2e<sup>-</sup>"],
-            explanation: "Le Soufre solide (0) gagne 2 électrons pour devenir l'ion sulfure S<sup>2-</sup>."
+            wrongs: [
+                "S + e<sup>-</sup> → S<sup>-</sup>",
+                "S<sup>2-</sup> + 2e<sup>-</sup> → S",
+                "S → S<sup>2-</sup> + 2e<sup>-</sup>"
+            ],
+            explanation: "Le soufre élémentaire (0) gagne 2 électrons pour devenir S<sup>2-</sup>."
         },
         {
             couple: "O<sub>2</sub> / H<sub>2</sub>O",
             correct: "O<sub>2</sub> + 4H<sup>+</sup> + 4e<sup>-</sup> → 2H<sub>2</sub>O",
-            wrongs: ["O<sub>2</sub> + 2H<sup>+</sup> + 2e<sup>-</sup> → H<sub>2</sub>O", "O<sub>2</sub> + 4H<sup>+</sup> + 2e<sup>-</sup> → 2H<sub>2</sub>O", "2H<sub>2</sub>O → O<sub>2</sub> + 4H<sup>+</sup> + 4e<sup>-</sup>"],
-            explanation: "C'est la réaction de réduction de l'oxygène (respiration). O<sub>2</sub> donne 2 molécules d'eau. Il faut donc 4H<sup>+</sup> et 4 électrons."
+            wrongs: [
+                "O<sub>2</sub> + 2H<sup>+</sup> + 2e<sup>-</sup> → H<sub>2</sub>O",
+                "O<sub>2</sub> + 4H<sup>+</sup> + 2e<sup>-</sup> → 2H<sub>2</sub>O",
+                "2H<sub>2</sub>O → O<sub>2</sub> + 4H<sup>+</sup> + 4e<sup>-</sup>"
+            ],
+            explanation: "Réduction de l'oxygène : O<sub>2</sub> donne 2H<sub>2</sub>O. Il faut 4H<sup>+</sup> et 4 électrons pour équilibrer."
         },
         {
             couple: "Pb<sup>2+</sup> / Pb",
             correct: "Pb<sup>2+</sup> + 2e<sup>-</sup> → Pb",
-            wrongs: ["Pb<sup>4+</sup> + 2e<sup>-</sup> → Pb", "Pb + 2e<sup>-</sup> → Pb<sup>2+</sup>", "Pb<sup>2+</sup> + e<sup>-</sup> → Pb"],
-            explanation: "Réduction métallique standard : Ion +2 + 2e<sup>-</sup> → Métal."
+            wrongs: [
+                "Pb<sup>4+</sup> + 2e<sup>-</sup> → Pb",
+                "Pb + 2e<sup>-</sup> → Pb<sup>2+</sup>",
+                "Pb<sup>2+</sup> + e<sup>-</sup> → Pb"
+            ],
+            explanation: "Le plomb II capte 2 électrons."
         },
         {
             couple: "Sn<sup>2+</sup> / Sn",
             correct: "Sn<sup>2+</sup> + 2e<sup>-</sup> → Sn",
-            wrongs: ["Sn<sup>4+</sup> + 2e<sup>-</sup> → Sn", "Sn<sup>2+</sup> → Sn + 2e<sup>-</sup>", "Sn + 2e<sup>-</sup> → Sn<sup>2+</sup>"],
-            explanation: "L'étain (Sn) suit la même logique que le plomb ou le cuivre."
+            wrongs: [
+                "Sn<sup>4+</sup> + 2e<sup>-</sup> → Sn",
+                "Sn<sup>2+</sup> → Sn + 2e<sup>-</sup>",
+                "Sn + 2e<sup>-</sup> → Sn<sup>2+</sup>"
+            ],
+            explanation: "L'étain II capte 2 électrons."
         },
         {
             couple: "Au<sup>3+</sup> / Au",
             correct: "Au<sup>3+</sup> + 3e<sup>-</sup> → Au",
-            wrongs: ["Au<sup>3+</sup> + e<sup>-</sup> → Au", "Au + 3e<sup>-</sup> → Au<sup>3+</sup>", "Au<sup>3+</sup> + 2e<sup>-</sup> → Au"],
-            explanation: "L'Or est ici au degré +3. Il lui faut 3 électrons pour devenir de l'Or métallique brillant."
+            wrongs: [
+                "Au<sup>3+</sup> + e<sup>-</sup> → Au",
+                "Au + 3e<sup>-</sup> → Au<sup>3+</sup>",
+                "Au<sup>3+</sup> + 2e<sup>-</sup> → Au"
+            ],
+            explanation: "L'Or III a besoin de 3 électrons pour devenir neutre."
         },
         {
             couple: "Br<sub>2</sub> / Br<sup>-</sup>",
             correct: "Br<sub>2</sub> + 2e<sup>-</sup> → 2Br<sup>-</sup>",
-            wrongs: ["Br<sub>2</sub> + e<sup>-</sup> → Br<sup>-</sup>", "Br<sub>2</sub> + 2e<sup>-</sup> → Br<sup>2-</sup>", "2Br<sup>-</sup> + 2e<sup>-</sup> → Br<sub>2</sub>"],
-            explanation: "Br<sub>2</sub> est une molécule diatomique. On doit d'abord équilibrer en mettant 2Br<sup>-</sup>, ce qui implique 2 électrons."
+            wrongs: [
+                "Br<sub>2</sub> + e<sup>-</sup> → Br<sup>-</sup>",
+                "Br<sub>2</sub> + 2e<sup>-</sup> → Br<sup>2-</sup>",
+                "2Br<sup>-</sup> + 2e<sup>-</sup> → Br<sub>2</sub>"
+            ],
+            explanation: "Br<sub>2</sub> donne 2Br<sup>-</sup>. Il faut donc 2 électrons."
         },
         {
             couple: "ClO<sup>-</sup> / Cl<sup>-</sup>",
             correct: "ClO<sup>-</sup> + 2H<sup>+</sup> + 2e<sup>-</sup> → Cl<sup>-</sup> + H<sub>2</sub>O",
-            wrongs: ["ClO<sup>-</sup> + e<sup>-</sup> → Cl<sup>-</sup> + O", "ClO<sup>-</sup> + H<sup>+</sup> + e<sup>-</sup> → Cl<sup>-</sup> + OH<sup>-</sup>", "ClO<sup>-</sup> + 2e<sup>-</sup> → Cl<sup>-</sup> + O<sup>2-</sup>"],
-            explanation: "L'eau de Javel (hypochlorite). Il faut compenser l'Oxygène avec H<sub>2</sub>O, donc ajouter 2H<sup>+</sup>. Bilan charge : +1 à gauche, -1 à droite. Écart de 2."
+            wrongs: [
+                "ClO<sup>-</sup> + e<sup>-</sup> → Cl<sup>-</sup> + O",
+                "ClO<sup>-</sup> + H<sup>+</sup> + e<sup>-</sup> → Cl<sup>-</sup> + OH<sup>-</sup>",
+                "ClO<sup>-</sup> + 2e<sup>-</sup> → Cl<sup>-</sup> + O<sup>2-</sup>"
+            ],
+            explanation: "On équilibre l'Oxygène avec H<sub>2</sub>O, ce qui demande 2H<sup>+</sup>. Bilan charge : +1 à gauche, -1 à droite. Écart de 2."
         },
         {
             couple: "Na<sup>+</sup> / Na",
             correct: "Na<sup>+</sup> + e<sup>-</sup> → Na",
-            wrongs: ["Na<sup>+</sup> + 2e<sup>-</sup> → Na", "Na → Na<sup>+</sup> + e<sup>-</sup>", "Na<sup>+</sup> + e<sup>-</sup> → Na<sup>-</sup>"],
-            explanation: "Le Sodium est un alcalin (colonne 1). Il ne perd/gagne qu'un seul électron."
+            wrongs: [
+                "Na<sup>+</sup> + 2e<sup>-</sup> → Na",
+                "Na → Na<sup>+</sup> + e<sup>-</sup>",
+                "Na<sup>+</sup> + e<sup>-</sup> → Na<sup>-</sup>"
+            ],
+            explanation: "Alcalin : 1 seul électron échangé."
         },
         {
             couple: "K<sup>+</sup> / K",
             correct: "K<sup>+</sup> + e<sup>-</sup> → K",
-            wrongs: ["K<sup>+</sup> + 2e<sup>-</sup> → K", "K + e<sup>-</sup> → K<sup>+</sup>", "K<sup>2+</sup> + 2e<sup>-</sup> → K"],
-            explanation: "Le Potassium est aussi un alcalin. 1 charge positive = 1 électron nécessaire."
+            wrongs: [
+                "K<sup>+</sup> + 2e<sup>-</sup> → K",
+                "K + e<sup>-</sup> → K<sup>+</sup>",
+                "K<sup>2+</sup> + 2e<sup>-</sup> → K"
+            ],
+            explanation: "Alcalin : 1 seul électron échangé."
         },
         {
-            couple: "Mg / Mg<sup>2+</sup> (Oxydation)",
+            couple: "Mg / Mg<sup>2+</sup>",
             correct: "Mg → Mg<sup>2+</sup> + 2e<sup>-</sup>",
-            wrongs: ["Mg + 2e<sup>-</sup> → Mg<sup>2+</sup>", "Mg → Mg<sup>+</sup> + e<sup>-</sup>", "Mg<sup>2+</sup> + 2e<sup>-</sup> → Mg"],
-            explanation: "Attention, ici le couple est présenté dans le sens de l'Oxydation (perte d'électrons). Le Magnésium perd 2 électrons."
+            wrongs: [
+                "Mg + 2e<sup>-</sup> → Mg<sup>2+</sup>",
+                "Mg → Mg<sup>+</sup> + e<sup>-</sup>",
+                "Mg<sup>2+</sup> + 2e<sup>-</sup> → Mg"
+            ],
+            explanation: "Oxydation du Magnésium qui perd 2 électrons."
         },
         {
             couple: "S<sub>4</sub>O<sub>6</sub><sup>2-</sup> / S<sub>2</sub>O<sub>3</sub><sup>2-</sup>",
             correct: "S<sub>4</sub>O<sub>6</sub><sup>2-</sup> + 2e<sup>-</sup> → 2S<sub>2</sub>O<sub>3</sub><sup>2-</sup>",
-            wrongs: ["S<sub>4</sub>O<sub>6</sub><sup>2-</sup> + e<sup>-</sup> → S<sub>2</sub>O<sub>3</sub><sup>2-</sup>", "2S<sub>2</sub>O<sub>3</sub><sup>2-</sup> + 2e<sup>-</sup> → S<sub>4</sub>O<sub>6</sub><sup>2-</sup>", "S<sub>4</sub>O<sub>6</sub><sup>2-</sup> + 4e<sup>-</sup> → 2S<sub>2</sub>O<sub>3</sub><sup>2-</sup>"],
-            explanation: "Couple du titrage iodométrique. On équilibre d'abord le Soufre et l'Oxygène en mettant un '2' devant le thiosulfate (S<sub>2</sub>O<sub>3</sub>). Les atomes sont alors équilibrés ! Il reste juste à équilibrer la charge : -2 à gauche, -4 à droite → ajout de 2e<sup>-</sup> à gauche."
+            wrongs: [
+                "S<sub>4</sub>O<sub>6</sub><sup>2-</sup> + e<sup>-</sup> → S<sub>2</sub>O<sub>3</sub><sup>2-</sup>",
+                "2S<sub>2</sub>O<sub>3</sub><sup>2-</sup> + 2e<sup>-</sup> → S<sub>4</sub>O<sub>6</sub><sup>2-</sup>",
+                "S<sub>4</sub>O<sub>6</sub><sup>2-</sup> + 4e<sup>-</sup> → 2S<sub>2</sub>O<sub>3</sub><sup>2-</sup>"
+            ],
+            explanation: "On équilibre S et O en mettant <b>2</b>S<sub>2</sub>O<sub>3</sub><sup>2-</sup>. Les atomes sont OK ! Charges : -2 à gauche, -4 à droite → +2e<sup>-</sup> à gauche."
         },
         {
             couple: "H<sub>2</sub>O<sub>2</sub> / H<sub>2</sub>O",
             correct: "H<sub>2</sub>O<sub>2</sub> + 2H<sup>+</sup> + 2e<sup>-</sup> → 2H<sub>2</sub>O",
-            wrongs: ["H<sub>2</sub>O<sub>2</sub> + 2e<sup>-</sup> → 2H<sub>2</sub>O", "H<sub>2</sub>O<sub>2</sub> + 2H<sup>+</sup> + e<sup>-</sup> → 2H<sub>2</sub>O", "H<sub>2</sub>O<sub>2</sub> → O<sub>2</sub> + 2H<sup>+</sup> + 2e<sup>-</sup>"],
-            explanation: "Eau oxygénée. H<sub>2</sub>O<sub>2</sub> contient 2 'O'. Il faut donc produire 2H<sub>2</sub>O. Cela nécessite l'ajout de 2H<sup>+</sup> et 2e<sup>-</sup>."
+            wrongs: [
+                "H<sub>2</sub>O<sub>2</sub> + 2e<sup>-</sup> → 2H<sub>2</sub>O",
+                "H<sub>2</sub>O<sub>2</sub> + 2H<sup>+</sup> + e<sup>-</sup> → 2H<sub>2</sub>O",
+                "H<sub>2</sub>O<sub>2</sub> → O<sub>2</sub> + 2H<sup>+</sup> + 2e<sup>-</sup>"
+            ],
+            explanation: "H<sub>2</sub>O<sub>2</sub> a 2 'O' → 2H<sub>2</sub>O. Ajout de 2H<sup>+</sup> et 2e<sup>-</sup>."
         }
     ];
 
@@ -510,10 +619,9 @@
     function generateQuestion() {
         isAnswered = false;
         nextBtn.style.display = 'none';
-        explanationBox.style.display = 'none'; // Cacher l'explication
+        explanationBox.style.display = 'none'; 
         optionsContainer.innerHTML = ''; 
 
-        // Éviter la répétition
         let newIndex;
         do {
             newIndex = Math.floor(Math.random() * db.length);
@@ -554,7 +662,6 @@
             score++;
         } else {
             selectedBtn.classList.add('wrong');
-            // Montrer la bonne réponse
             const correctText = db[currentQuestionIndex].correct;
             allButtons.forEach(btn => {
                 if(btn.innerHTML === correctText) {
@@ -565,14 +672,12 @@
 
         updateScore();
         
-        // AFFICHER L'EXPLICATION
         const expl = db[currentQuestionIndex].explanation;
         explanationText.innerHTML = expl;
         explanationBox.style.display = 'block';
 
         nextBtn.style.display = 'block';
         
-        // Auto scroll léger vers le bas pour voir l'explication sur mobile
         setTimeout(() => {
             explanationBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 100);
@@ -582,11 +687,10 @@
         generateQuestion();
     }
 
-    // Init
     generateQuestion();
     updateScore();
-
 </script>
 
 </body>
 </html>
+
