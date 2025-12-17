@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Révisions Redox</title>
+    <style>
+        /* --- VARIABLES DE COULEURS (THÈMES) --- */
+        :root {
+            /* THÈME CLAIR (Défaut) */
+            --bg-color: #f0f2f5;
+            --paper-color: #ffffff;
+            --text-color: #333333;
+            --text-secondary: #666666;
+            --border-color: #ddd;
+            --header-bg: #2c3e50;
+            --header-text: #ecf0f1;
+            
+            --btn-bg: #ffffff;
+            --btn-border: #e0e0e0;
+            --btn-hover: #f8f9fa;
+            
+            --correct-bg: #d4edda;
+            --correct-border: #c3e6cb;
+            --correct-text: #155724;
+            
+            --wrong-bg: #f8d7da;
+            --wrong-border: #f5c6cb;
+            --wrong-text: #721c24;
+
+            --expl-bg: #e8f4fd;
+            --expl-border: #b6e0fe;
+            --expl-text: #0c5460;
+        }
+
+        /* THÈME SOMBRE */
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --paper-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --text-secondary: #aaaaaa;
+            --border-color: #333;
+            --header-bg: #000000;
+            --header-text: #f0f0f0;
+            
+            --btn-bg: #2d2d2d;
+            --btn-border: #444;
+            --btn-hover: #3a3a3a;
+            
+            --correct-bg: #1e4620;
+            --correct-border: #2e7d32;
+            --correct-text: #a5d6a7;
+            
+            --wrong-bg: #5c1e22;
+            --wrong-border: #c62828;
+            --wrong-text: #ef9a9a;
+
+            --expl-bg: #102a43;
+            --expl-border: #243b53;
+            --expl-text: #bcccdc;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            background-color: var(--paper-color);
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* HEADER & TOP BAR */
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 0 5px;
+        }
+
+        .score-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0;
+            margin: 0;
+            filter: grayscale(100%);
+            transition: transform 0.2s;
+        }
+        .theme-toggle:active { transform: scale(0.9); }
+
+        h1 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .sub-header {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        /* CONTENT */
+        .content { padding: 15px; }
+
+        .question-box {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: var(--btn-hover);
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+        }
+
+        .instruction {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .couple-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 5px 0;
+            color: var(--text-color);
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        /* OPTIONS */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: var(--btn-bg);
+            border: 2px solid var(--btn-border);
+            color: var(--text-color);
+            border-radius: 10px;
+            padding: 15px 10px;
+            font-size: 1.15rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.4;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .option-btn:active { transform: scale(0.98); }
+
+        @media (hover: hover) {
+            .option-btn:hover:not(.disabled) {
+                border-color: #3498db;
+                background-color: var(--btn-hover);
+                transform: translateY(-2px);
+            }
+        }
+
+        /* ÉTATS RÉPONSE */
+        .option-btn.correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-bg) !important;
+            border-color: var(--wrong-border) !important;
+            color: var(--wrong-text) !important;
+            opacity: 0.8;
+        }
+
+        .option-btn.disabled {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* EXPLICATION BOX */
+        .explanation-box {
+            margin-top: 20px;
+            background-color: var(--expl-bg);
+            border-left: 5px solid var(--expl-border);
+            color: var(--expl-text);
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: none; /* Caché par défaut */
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation-title {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* FOOTER / NEXT BUTTON */
+        .feedback-area {
+            margin-top: 25px;
+            text-align: center;
+            min-height: 50px;
+        }
+
+        .next-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            display: none;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+            width: 100%;
+            max-width: 300px;
+            transition: background 0.3s;
+        }
+        .next-btn:hover { background-color: #2980b9; }
+
+        /* Chimie formatting */
+        sub { font-size: 0.75em; vertical-align: sub; }
+        sup { font-size: 0.75em; vertical-align: super; }
+
+    </style>
+</head>
+<body data-theme="light">
+
+<div class="container">
+    <header>
+        <div class="top-bar">
+            <div class="score-badge">Score : <span id="score-display">0 / 0</span></div>
+            <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">🌙</button>
+        </div>
+        <h1>Révisions Redox</h1>
+        <div class="sub-header">Niveau Terminale</div>
+    </header>
+
+    <div class="content">
+        <div class="question-box">
+            <div class="instruction">Équilibrer le couple</div>
+            <div class="couple-display" id="couple-target">...</div>
+        </div>
+
+        <div class="options-grid" id="options-container">
+            <!-- Boutons générés ici -->
+        </div>
+
+        <!-- Zone d'explication dynamique -->
+        <div id="explanation" class="explanation-box">
+            <span class="explanation-title">💡 Explication :</span>
+            <span id="explanation-text">...</span>
+        </div>
+
+        <div class="feedback-area">
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Question Suivante →</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- DB AVEC EXPLICATIONS AJOUTÉES ---
+    const db = [
+        {
+            couple: "Ag<sup>+</sup> / Ag",
+            correct: "Ag<sup>+</sup> + e<sup>-</sup> → Ag",
+            wrongs: ["Ag<sup>+</sup> → Ag + e<sup>-</sup>", "Ag + e<sup>-</sup> → Ag<sup>+</sup>", "Ag<sup>+</sup> + 2e<sup>-</sup> → Ag"],
+            explanation: "Simple conservation de la charge. Ag est neutre (0), Ag<sup>+</sup> est (+1). Il faut ajouter 1 électron (négatif) à gauche pour annuler le +1."
+        },
+        {
+            couple: "Al<sup>3+</sup> / Al",
+            correct: "Al<sup>3+</sup> + 3e<sup>-</sup> → Al",
+            wrongs: ["Al<sup>3+</sup> + e<sup>-</sup> → Al", "Al<sup>3+</sup> + 2e<sup>-</sup> → Al", "Al → Al<sup>3+</sup> + 3e<sup>-</sup>"],
+            explanation: "L'aluminium passe de l'état d'oxydation +3 à 0. Il faut donc gagner 3 électrons pour neutraliser la charge."
+        },
+        {
+            couple: "Cu<sup>2+</sup> / Cu",
+            correct: "Cu<sup>2+</sup> + 2e<sup>-</sup> → Cu",
+            wrongs: ["Cu<sup>2+</sup> + e<sup>-</sup> → Cu", "Cu + 2e<sup>-</sup> → Cu<sup>2+</sup>", "Cu<sup>2+</sup> → Cu + 2e<sup>-</sup>"],
+            explanation: "Réduction classique : Cu<sup>2+</sup> capte 2 charges négatives pour devenir Cu solide neutre."
+        },
+        {
+            couple: "Fe<sup>2+</sup> / Fe",
+            correct: "Fe<sup>2+</sup> + 2e<sup>-</sup> → Fe",
+            wrongs: ["Fe<sup>3+</sup> + e<sup>-</sup> → Fe", "Fe<sup>2+</sup> + 3e<sup>-</sup> → Fe", "Fe<sup>2+</sup> → Fe + 2e<sup>-</sup>"],
+            explanation: "Le Fer II (Fe<sup>2+</sup>) a besoin de 2 électrons pour redevenir du fer métallique."
+        },
+        {
+            couple: "Fe<sup>3+</sup> / Fe<sup>2+</sup>",
+            correct: "Fe<sup>3+</sup> + e<sup>-</sup> → Fe<sup>2+</sup>",
+            wrongs: ["Fe<sup>3+</sup> + 2e<sup>-</sup> → Fe<sup>2+</sup>", "Fe<sup>2+</sup> + e<sup>-</sup> → Fe<sup>3+</sup>", "Fe<sup>3+</sup> → Fe<sup>2+</sup> + e<sup>-</sup>"],
+            explanation: "On passe de +3 à +2. La différence est de 1 seule charge. Il suffit d'ajouter 1 électron à gauche."
+        },
+        {
+            couple: "Zn<sup>2+</sup> / Zn",
+            correct: "Zn<sup>2+</sup> + 2e<sup>-</sup> → Zn",
+            wrongs: ["Zn<sup>2+</sup> + e<sup>-</sup> → Zn", "Zn + 2e<sup>-</sup> → Zn<sup>2+</sup>", "Zn<sup>2+</sup> → Zn + 2e<sup>-</sup>"],
+            explanation: "Le Zinc ionique Zn<sup>2+</sup> capte 2 électrons pour former du métal Zn."
+        },
+        {
+            couple: "I<sub>2</sub> / I<sup>-</sup>",
+            correct: "I<sub>2</sub> + 2e<sup>-</sup> → 2I<sup>-</sup>",
+            wrongs: ["I<sub>2</sub> + e<sup>-</sup> → I<sup>-</sup>", "I<sub>2</sub> + 2e<sup>-</sup> → I<sup>-</sup>", "2I<sup>-</sup> + 2e<sup>-</sup> → I<sub>2</sub>"],
+            explanation: "Attention à la matière ! Il y a 2 atomes d'Iode dans I<sub>2</sub>, donc on forme 2I<sup>-</sup>. Ensuite, on équilibre les charges : 0 à gauche, -2 à droite → ajout de 2e<sup>-</sup> à gauche."
+        },
+        {
+            couple: "Cl<sub>2</sub> / Cl<sup>-</sup>",
+            correct: "Cl<sub>2</sub> + 2e<sup>-</sup> → 2Cl<sup>-</sup>",
+            wrongs: ["Cl<sub>2</sub> + e<sup>-</sup> → Cl<sup>-</sup>", "Cl<sub>2</sub> + 2e<sup>-</sup> → Cl<sup>2-</sup>", "Cl<sup>-</sup> → Cl<sub>2</sub> + e<sup>-</sup>"],
+            explanation: "Même logique que l'Iode. On équilibre l'élément Chlore (2Cl<sup>-</sup>) puis les charges avec 2 électrons."
+        },
+        {
+            couple: "H<sup>+</sup> / H<sub>2</sub>",
+            correct: "2H<sup>+</sup> + 2e<sup>-</sup> → H<sub>2</sub>",
+            wrongs: ["H<sup>+</sup> + e<sup>-</sup> → H<sub>2</sub>", "2H<sup>+</sup> + e<sup>-</sup> → H<sub>2</sub>", "H<sub>2</sub> + 2e<sup>-</sup> → 2H<sup>+</sup>"],
+            explanation: "Il faut 2 protons H<sup>+</sup> pour faire une molécule H<sub>2</sub>. La charge totale est +2 à gauche, on neutralise avec 2 électrons."
+        },
+        {
+            couple: "MnO<sub>4</sub><sup>-</sup> / Mn<sup>2+</sup>",
+            correct: "MnO<sub>4</sub><sup>-</sup> + 8H<sup>+</sup> + 5e<sup>-</sup> → Mn<sup>2+</sup> + 4H<sub>2</sub>O",
+            wrongs: ["MnO<sub>4</sub><sup>-</sup> + 8H<sup>+</sup> + e<sup>-</sup> → Mn<sup>2+</sup> + 4H<sub>2</sub>O", "MnO<sub>4</sub><sup>-</sup> + 4H<sup>+</sup> + 5e<sup>-</sup> → Mn<sup>2+</sup> + 2H<sub>2</sub>O", "MnO<sub>4</sub><sup>-</sup> + 5e<sup>-</sup> → Mn<sup>2+</sup> + 4O<sup>2-</sup>"],
+            explanation: "<b>Méthode O.H.E :</b><br>1. Mn est bon.<br>2. 4 Oxygènes → ajout de 4H<sub>2</sub>O.<br>3. 8 Hydrogènes → ajout de 8H<sup>+</sup>.<br>4. Charges : (+7) à gauche et (+2) à droite. Écart de 5 → ajout de 5e<sup>-</sup>."
+        },
+        {
+            couple: "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> / Cr<sup>3+</sup>",
+            correct: "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 14H<sup>+</sup> + 6e<sup>-</sup> → 2Cr<sup>3+</sup> + 7H<sub>2</sub>O",
+            wrongs: ["Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 7H<sup>+</sup> + 3e<sup>-</sup> → 2Cr<sup>3+</sup> + 7H<sub>2</sub>O", "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 14H<sup>+</sup> + 6e<sup>-</sup> → Cr<sup>3+</sup> + 7H<sub>2</sub>O", "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup> + 14H<sup>+</sup> → 2Cr<sup>3+</sup> + 7H<sub>2</sub>O + 6e<sup>-</sup>"],
+            explanation: "<b>Attention au piège :</b> Il y a 2 Chromes dans Cr<sub>2</sub>O<sub>7</sub>, donc on met <b>2</b>Cr<sup>3+</sup>. Ensuite 7H<sub>2</sub>O pour l'oxygène, 14H<sup>+</sup> pour l'hydrogène. Bilan charges : +12 à gauche, +6 à droite → écart de 6e<sup>-</sup>."
+        },
+        {
+            couple: "NO<sub>3</sub><sup>-</sup> / NO",
+            correct: "NO<sub>3</sub><sup>-</sup> + 4H<sup>+</sup> + 3e<sup>-</sup> → NO + 2H<sub>2</sub>O",
+            wrongs: ["NO<sub>3</sub><sup>-</sup> + 2H<sup>+</sup> + e<sup>-</sup> → NO + H<sub>2</sub>O", "NO<sub>3</sub><sup>-</sup> + 4H<sup>+</sup> + 2e<sup>-</sup> → NO + 2H<sub>2</sub>O", "NO<sub>3</sub><sup>-</sup> + 3e<sup>-</sup> → NO + 3O<sup>2-</sup>"],
+            explanation: "3 Oxygènes vs 1 Oxygène → ajout de 2H<sub>2</sub>O. Cela demande 4H<sup>+</sup>. Charge résultante +3 à gauche, neutre à droite → ajout de 3e<sup>-</sup>."
+        },
+        {
+            couple: "SO<sub>4</sub><sup>2-</sup> / SO<sub>2</sub>",
+            correct: "SO<sub>4</sub><sup>2-</sup> + 4H<sup>+</sup> + 2e<sup>-</sup> → SO<sub>2</sub> + 2H<sub>2</sub>O",
+            wrongs: ["SO<sub>4</sub><sup>2-</sup> + 2H<sup>+</sup> + 2e<sup>-</sup> → SO<sub>2</sub> + H<sub>2</sub>O", "SO<sub>4</sub><sup>2-</sup> + 4H<sup>+</sup> + 4e<sup>-</sup> → SO<sub>2</sub> + 2H<sub>2</sub>O", "SO<sub>4</sub><sup>2-</sup> → SO<sub>2</sub> + O<sub>2</sub> + 2e<sup>-</sup>"],
+            explanation: "4 Oxygènes vs 2 Oxygènes → ajout de 2H<sub>2</sub>O. Puis 4H<sup>+</sup>. Charge : (-2 + 4) = +2. On ajoute 2e<sup>-</sup> pour neutraliser."
+        },
+        {
+            couple: "S / S<sup>2-</sup>",
+            correct: "S + 2e<sup>-</sup> → S<sup>2-</sup>",
+            wrongs: ["S + e<sup>-</sup> → S<sup>-</sup>", "S<sup>2-</sup> + 2e<sup>-</sup> → S", "S → S<sup>2-</sup> + 2e<sup>-</sup>"],
+            explanation: "Le Soufre solide (0) gagne 2 électrons pour devenir l'ion sulfure S<sup>2-</sup>."
+        },
+        {
+            couple: "O<sub>2</sub> / H<sub>2</sub>O",
+            correct: "O<sub>2</sub> + 4H<sup>+</sup> + 4e<sup>-</sup> → 2H<sub>2</sub>O",
+            wrongs: ["O<sub>2</sub> + 2H<sup>+</sup> + 2e<sup>-</sup> → H<sub>2</sub>O", "O<sub>2</sub> + 4H<sup>+</sup> + 2e<sup>-</sup> → 2H<sub>2</sub>O", "2H<sub>2</sub>O → O<sub>2</sub> + 4H<sup>+</sup> + 4e<sup>-</sup>"],
+            explanation: "C'est la réaction de réduction de l'oxygène (respiration). O<sub>2</sub> donne 2 molécules d'eau. Il faut donc 4H<sup>+</sup> et 4 électrons."
+        },
+        {
+            couple: "Pb<sup>2+</sup> / Pb",
+            correct: "Pb<sup>2+</sup> + 2e<sup>-</sup> → Pb",
+            wrongs: ["Pb<sup>4+</sup> + 2e<sup>-</sup> → Pb", "Pb + 2e<sup>-</sup> → Pb<sup>2+</sup>", "Pb<sup>2+</sup> + e<sup>-</sup> → Pb"],
+            explanation: "Réduction métallique standard : Ion +2 + 2e<sup>-</sup> → Métal."
+        },
+        {
+            couple: "Sn<sup>2+</sup> / Sn",
+            correct: "Sn<sup>2+</sup> + 2e<sup>-</sup> → Sn",
+            wrongs: ["Sn<sup>4+</sup> + 2e<sup>-</sup> → Sn", "Sn<sup>2+</sup> → Sn + 2e<sup>-</sup>", "Sn + 2e<sup>-</sup> → Sn<sup>2+</sup>"],
+            explanation: "L'étain (Sn) suit la même logique que le plomb ou le cuivre."
+        },
+        {
+            couple: "Au<sup>3+</sup> / Au",
+            correct: "Au<sup>3+</sup> + 3e<sup>-</sup> → Au",
+            wrongs: ["Au<sup>3+</sup> + e<sup>-</sup> → Au", "Au + 3e<sup>-</sup> → Au<sup>3+</sup>", "Au<sup>3+</sup> + 2e<sup>-</sup> → Au"],
+            explanation: "L'Or est ici au degré +3. Il lui faut 3 électrons pour devenir de l'Or métallique brillant."
+        },
+        {
+            couple: "Br<sub>2</sub> / Br<sup>-</sup>",
+            correct: "Br<sub>2</sub> + 2e<sup>-</sup> → 2Br<sup>-</sup>",
+            wrongs: ["Br<sub>2</sub> + e<sup>-</sup> → Br<sup>-</sup>", "Br<sub>2</sub> + 2e<sup>-</sup> → Br<sup>2-</sup>", "2Br<sup>-</sup> + 2e<sup>-</sup> → Br<sub>2</sub>"],
+            explanation: "Br<sub>2</sub> est une molécule diatomique. On doit d'abord équilibrer en mettant 2Br<sup>-</sup>, ce qui implique 2 électrons."
+        },
+        {
+            couple: "ClO<sup>-</sup> / Cl<sup>-</sup>",
+            correct: "ClO<sup>-</sup> + 2H<sup>+</sup> + 2e<sup>-</sup> → Cl<sup>-</sup> + H<sub>2</sub>O",
+            wrongs: ["ClO<sup>-</sup> + e<sup>-</sup> → Cl<sup>-</sup> + O", "ClO<sup>-</sup> + H<sup>+</sup> + e<sup>-</sup> → Cl<sup>-</sup> + OH<sup>-</sup>", "ClO<sup>-</sup> + 2e<sup>-</sup> → Cl<sup>-</sup> + O<sup>2-</sup>"],
+            explanation: "L'eau de Javel (hypochlorite). Il faut compenser l'Oxygène avec H<sub>2</sub>O, donc ajouter 2H<sup>+</sup>. Bilan charge : +1 à gauche, -1 à droite. Écart de 2."
+        },
+        {
+            couple: "Na<sup>+</sup> / Na",
+            correct: "Na<sup>+</sup> + e<sup>-</sup> → Na",
+            wrongs: ["Na<sup>+</sup> + 2e<sup>-</sup> → Na", "Na → Na<sup>+</sup> + e<sup>-</sup>", "Na<sup>+</sup> + e<sup>-</sup> → Na<sup>-</sup>"],
+            explanation: "Le Sodium est un alcalin (colonne 1). Il ne perd/gagne qu'un seul électron."
+        },
+        {
+            couple: "K<sup>+</sup> / K",
+            correct: "K<sup>+</sup> + e<sup>-</sup> → K",
+            wrongs: ["K<sup>+</sup> + 2e<sup>-</sup> → K", "K + e<sup>-</sup> → K<sup>+</sup>", "K<sup>2+</sup> + 2e<sup>-</sup> → K"],
+            explanation: "Le Potassium est aussi un alcalin. 1 charge positive = 1 électron nécessaire."
+        },
+        {
+            couple: "Mg / Mg<sup>2+</sup> (Oxydation)",
+            correct: "Mg → Mg<sup>2+</sup> + 2e<sup>-</sup>",
+            wrongs: ["Mg + 2e<sup>-</sup> → Mg<sup>2+</sup>", "Mg → Mg<sup>+</sup> + e<sup>-</sup>", "Mg<sup>2+</sup> + 2e<sup>-</sup> → Mg"],
+            explanation: "Attention, ici le couple est présenté dans le sens de l'Oxydation (perte d'électrons). Le Magnésium perd 2 électrons."
+        },
+        {
+            couple: "S<sub>4</sub>O<sub>6</sub><sup>2-</sup> / S<sub>2</sub>O<sub>3</sub><sup>2-</sup>",
+            correct: "S<sub>4</sub>O<sub>6</sub><sup>2-</sup> + 2e<sup>-</sup> → 2S<sub>2</sub>O<sub>3</sub><sup>2-</sup>",
+            wrongs: ["S<sub>4</sub>O<sub>6</sub><sup>2-</sup> + e<sup>-</sup> → S<sub>2</sub>O<sub>3</sub><sup>2-</sup>", "2S<sub>2</sub>O<sub>3</sub><sup>2-</sup> + 2e<sup>-</sup> → S<sub>4</sub>O<sub>6</sub><sup>2-</sup>", "S<sub>4</sub>O<sub>6</sub><sup>2-</sup> + 4e<sup>-</sup> → 2S<sub>2</sub>O<sub>3</sub><sup>2-</sup>"],
+            explanation: "Couple du titrage iodométrique. On équilibre d'abord le Soufre et l'Oxygène en mettant un '2' devant le thiosulfate (S<sub>2</sub>O<sub>3</sub>). Les atomes sont alors équilibrés ! Il reste juste à équilibrer la charge : -2 à gauche, -4 à droite → ajout de 2e<sup>-</sup> à gauche."
+        },
+        {
+            couple: "H<sub>2</sub>O<sub>2</sub> / H<sub>2</sub>O",
+            correct: "H<sub>2</sub>O<sub>2</sub> + 2H<sup>+</sup> + 2e<sup>-</sup> → 2H<sub>2</sub>O",
+            wrongs: ["H<sub>2</sub>O<sub>2</sub> + 2e<sup>-</sup> → 2H<sub>2</sub>O", "H<sub>2</sub>O<sub>2</sub> + 2H<sup>+</sup> + e<sup>-</sup> → 2H<sub>2</sub>O", "H<sub>2</sub>O<sub>2</sub> → O<sub>2</sub> + 2H<sup>+</sup> + 2e<sup>-</sup>"],
+            explanation: "Eau oxygénée. H<sub>2</sub>O<sub>2</sub> contient 2 'O'. Il faut donc produire 2H<sub>2</sub>O. Cela nécessite l'ajout de 2H<sup>+</sup> et 2e<sup>-</sup>."
+        }
+    ];
+
+    // --- LOGIQUE JS ---
+
+    const coupleTarget = document.getElementById('couple-target');
+    const optionsContainer = document.getElementById('options-container');
+    const nextBtn = document.getElementById('next-btn');
+    const explanationBox = document.getElementById('explanation');
+    const explanationText = document.getElementById('explanation-text');
+    const scoreDisplay = document.getElementById('score-display');
+    const themeBtn = document.getElementById('theme-btn');
+    const body = document.body;
+
+    let currentQuestionIndex = -1;
+    let isAnswered = false;
+    let score = 0;
+    let totalQuestions = 0;
+
+    // Gestion du Thème Dark/Light
+    function toggleTheme() {
+        const currentTheme = body.getAttribute('data-theme');
+        if (currentTheme === 'light') {
+            body.setAttribute('data-theme', 'dark');
+            themeBtn.innerText = '☀️';
+        } else {
+            body.setAttribute('data-theme', 'light');
+            themeBtn.innerText = '🌙';
+        }
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function updateScore() {
+        scoreDisplay.innerText = `${score} / ${totalQuestions}`;
+    }
+
+    function generateQuestion() {
+        isAnswered = false;
+        nextBtn.style.display = 'none';
+        explanationBox.style.display = 'none'; // Cacher l'explication
+        optionsContainer.innerHTML = ''; 
+
+        // Éviter la répétition
+        let newIndex;
+        do {
+            newIndex = Math.floor(Math.random() * db.length);
+        } while (newIndex === currentQuestionIndex && db.length > 1);
+        
+        currentQuestionIndex = newIndex;
+        const q = db[currentQuestionIndex];
+
+        coupleTarget.innerHTML = q.couple;
+
+        let options = [];
+        options.push({ text: q.correct, isCorrect: true });
+        q.wrongs.forEach(wrong => {
+            options.push({ text: wrong, isCorrect: false });
+        });
+
+        options = shuffleArray(options);
+
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = opt.text; 
+            btn.onclick = () => checkAnswer(btn, opt.isCorrect);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedBtn, isCorrect) {
+        if (isAnswered) return;
+        isAnswered = true;
+        totalQuestions++;
+
+        const allButtons = optionsContainer.querySelectorAll('.option-btn');
+        allButtons.forEach(btn => btn.classList.add('disabled'));
+
+        if (isCorrect) {
+            selectedBtn.classList.add('correct');
+            score++;
+        } else {
+            selectedBtn.classList.add('wrong');
+            // Montrer la bonne réponse
+            const correctText = db[currentQuestionIndex].correct;
+            allButtons.forEach(btn => {
+                if(btn.innerHTML === correctText) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        updateScore();
+        
+        // AFFICHER L'EXPLICATION
+        const expl = db[currentQuestionIndex].explanation;
+        explanationText.innerHTML = expl;
+        explanationBox.style.display = 'block';
+
+        nextBtn.style.display = 'block';
+        
+        // Auto scroll léger vers le bas pour voir l'explication sur mobile
+        setTimeout(() => {
+            explanationBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    }
+
+    function nextQuestion() {
+        generateQuestion();
+    }
+
+    // Init
+    generateQuestion();
+    updateScore();
+
+</script>
+
+</body>
+</html>
