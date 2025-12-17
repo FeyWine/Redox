@@ -313,16 +313,7 @@
 </div>
 
 <script>
-   J'ai compris le problème. Tu as copié le code où j'avais ajouté les explications, mais dans ce code spécifique, j'ai oublié de remettre les balises <sup> et <sub> dans les réponses du tableau db. Le tableau db dans ma dernière réponse était une version "simplifiée" sans le formatage HTML chimique que j'avais corrigé juste avant. C'est ma faute.
-
-Sur ton image, on voit SO42- au lieu de SO₄²⁻.
-
-Je vais te redonner uniquement le bloc JavaScript à remplacer (le contenu entre <script> et </script>). Ce bloc contient la base de données (db) corrigée AVEC les explications ET le formatage chimique (balises HTML).
-
-Action : Remplace tout ce qui se trouve entre <script> et </script> dans ton fichier par ceci :
-
-javascript
-    // --- DB CORRIGÉE : Formatage Chimique ET Explications ---
+    // --- DB CORRIGÉE DÉFINITIVE (Wrongs inclus) ---
     const db = [
         {
             couple: "Ag<sup>+</sup> / Ag",
@@ -475,6 +466,7 @@ javascript
             explanation: "Réduction de l'oxygène : O<sub>2</sub> donne 2H<sub>2</sub>O. Il faut 4H<sup>+</sup> et 4 électrons pour équilibrer."
         },
         {
+            // C'EST ICI QUE TU AVAIS L'ERREUR DANS L'IMAGE
             couple: "Pb<sup>2+</sup> / Pb",
             correct: "Pb<sup>2+</sup> + 2e<sup>-</sup> → Pb",
             wrongs: [
@@ -485,6 +477,7 @@ javascript
             explanation: "Le plomb II capte 2 électrons."
         },
         {
+            // ET ICI AUSSI
             couple: "Sn<sup>2+</sup> / Sn",
             correct: "Sn<sup>2+</sup> + 2e<sup>-</sup> → Sn",
             wrongs: [
@@ -576,7 +569,7 @@ javascript
         }
     ];
 
-    // --- LOGIQUE JS ---
+    // --- LOGIQUE JS (Rien n'a changé ici, mais je le remets pour être sûr) ---
 
     const coupleTarget = document.getElementById('couple-target');
     const optionsContainer = document.getElementById('options-container');
@@ -592,7 +585,6 @@ javascript
     let score = 0;
     let totalQuestions = 0;
 
-    // Gestion du Thème Dark/Light
     function toggleTheme() {
         const currentTheme = body.getAttribute('data-theme');
         if (currentTheme === 'light') {
@@ -693,4 +685,5 @@ javascript
 
 </body>
 </html>
+
 
