@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Révisions Redox</title>
-    <style>
-        /* --- VARIABLES DE COULEURS (THÈMES) --- */
+        <style>
+        /* --- VARIABLES --- */
         :root {
-            /* THÈME CLAIR (Défaut) */
             --bg-color: #f0f2f5;
             --paper-color: #ffffff;
             --text-color: #333333;
@@ -33,7 +32,6 @@
             --expl-text: #0c5460;
         }
 
-        /* THÈME SOMBRE */
         [data-theme="dark"] {
             --bg-color: #121212;
             --paper-color: #1e1e1e;
@@ -42,19 +40,15 @@
             --border-color: #333;
             --header-bg: #000000;
             --header-text: #f0f0f0;
-            
             --btn-bg: #2d2d2d;
             --btn-border: #444;
             --btn-hover: #3a3a3a;
-            
             --correct-bg: #1e4620;
             --correct-border: #2e7d32;
             --correct-text: #a5d6a7;
-            
             --wrong-bg: #5c1e22;
             --wrong-border: #c62828;
             --wrong-text: #ef9a9a;
-
             --expl-bg: #102a43;
             --expl-border: #243b53;
             --expl-text: #bcccdc;
@@ -63,7 +57,7 @@
         * { box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif; /* Police fiable */
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -72,7 +66,6 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            transition: background-color 0.3s, color 0.3s;
         }
 
         .container {
@@ -84,16 +77,13 @@
             overflow: hidden;
             border: 1px solid var(--border-color);
             margin-bottom: 20px;
-            transition: background-color 0.3s, border-color 0.3s;
         }
 
-        /* HEADER & TOP BAR */
         header {
             background-color: var(--header-bg);
             color: var(--header-text);
             padding: 15px;
             text-align: center;
-            position: relative;
         }
 
         .top-bar {
@@ -120,23 +110,11 @@
             padding: 0;
             margin: 0;
             filter: grayscale(100%);
-            transition: transform 0.2s;
-        }
-        .theme-toggle:active { transform: scale(0.9); }
-
-        h1 {
-            margin: 0;
-            font-size: 1.3rem;
-            font-weight: 700;
         }
 
-        .sub-header {
-            font-size: 0.8rem;
-            opacity: 0.8;
-            margin-top: 4px;
-        }
+        h1 { margin: 0; font-size: 1.3rem; font-weight: 700; }
+        .sub-header { font-size: 0.8rem; opacity: 0.8; margin-top: 4px; }
 
-        /* CONTENT */
         .content { padding: 15px; }
 
         .question-box {
@@ -154,18 +132,16 @@
             margin-bottom: 8px;
             text-transform: uppercase;
             font-weight: bold;
-            letter-spacing: 1px;
         }
 
         .couple-display {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
             margin: 5px 0;
             color: var(--text-color);
-            font-family: 'Times New Roman', Times, serif;
+            font-family: 'Times New Roman', Times, serif; /* On garde Times pour le titre */
         }
 
-        /* OPTIONS */
         .options-grid {
             display: flex;
             flex-direction: column;
@@ -178,7 +154,7 @@
             color: var(--text-color);
             border-radius: 10px;
             padding: 15px 10px;
-            font-size: 1.15rem;
+            font-size: 1.2rem; /* Texte un peu plus gros */
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
@@ -186,23 +162,22 @@
             align-items: center;
             justify-content: center;
             min-height: 70px;
-            font-family: 'Times New Roman', Times, serif;
+            font-family: Arial, Helvetica, sans-serif; /* Police fiable pour les boutons */
             line-height: 1.4;
             -webkit-tap-highlight-color: transparent;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .option-btn:active { transform: scale(0.98); }
-
-        @media (hover: hover) {
-            .option-btn:hover:not(.disabled) {
-                border-color: #3498db;
-                background-color: var(--btn-hover);
-                transform: translateY(-2px);
-            }
+        /* --- CORRECTION CHIMIE RADICALE --- */
+        sub, sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
         }
+        sup { top: -0.5em; }
+        sub { bottom: -0.25em; }
+        /* ---------------------------------- */
 
-        /* ÉTATS RÉPONSE */
         .option-btn.correct {
             background-color: var(--correct-bg) !important;
             border-color: var(--correct-border) !important;
@@ -216,12 +191,6 @@
             opacity: 0.8;
         }
 
-        .option-btn.disabled {
-            cursor: default;
-            pointer-events: none;
-        }
-
-        /* EXPLICATION BOX */
         .explanation-box {
             margin-top: 20px;
             background-color: var(--expl-bg);
@@ -231,29 +200,11 @@
             border-radius: 4px;
             font-size: 0.95rem;
             line-height: 1.5;
-            display: none; /* Caché par défaut */
-            animation: fadeIn 0.5s ease;
+            display: none;
         }
+        .explanation-title { font-weight: bold; display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8rem; }
 
-        .explanation-title {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* FOOTER / NEXT BUTTON */
-        .feedback-area {
-            margin-top: 25px;
-            text-align: center;
-            min-height: 50px;
-        }
+        .feedback-area { margin-top: 25px; text-align: center; min-height: 50px; }
 
         .next-btn {
             background-color: #3498db;
@@ -268,15 +219,9 @@
             box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
             width: 100%;
             max-width: 300px;
-            transition: background 0.3s;
         }
-        .next-btn:hover { background-color: #2980b9; }
-
-        /* Chimie formatting */
-        sub { font-size: 0.75em; vertical-align: sub; }
-        sup { font-size: 0.75em; vertical-align: super; }
-
     </style>
+
 </head>
 <body data-theme="light">
 
@@ -685,5 +630,6 @@
 
 </body>
 </html>
+
 
 
